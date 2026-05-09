@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Dashboard</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- Navbar -->
+
+    <nav class="bg-black text-white p-4 flex justify-between items-center">
+
+        <h1 class="text-2xl font-bold">
+            Object Detector
+        </h1>
+
+        <div class="flex items-center gap-4">
+
+            <p>
+                Welcome, {{ username }}
+            </p>
+
+            <a
+                href="/"
+                class="bg-white text-black px-4 py-2 rounded"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- Main -->
+
+    <div class="max-w-5xl mx-auto p-8">
+
+        <!-- Stats -->
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+            <div class="bg-white p-6 rounded-xl shadow">
+
+                <h2 class="text-gray-500 mb-2">
+                    Total Detections
+                </h2>
+
+                <h1
+                    id="totalDetections"
+                    class="text-4xl font-bold"
+                >
+                    0
+                </h1>
+
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow">
+
+                <h2 class="text-gray-500 mb-2">
+                    Device
+                </h2>
+
+                <h1 class="text-2xl font-bold">
+                    Wemos ESP8266
+                </h1>
+
+            </div>
+
+        </div>
+
+        <!-- Detection List -->
+
+        <div class="bg-white p-6 rounded-xl shadow">
+
+            <h2 class="text-2xl font-bold mb-6">
+                Recent Detections
+            </h2>
+
+            <div
+                id="detections"
+                class="space-y-4"
+            >
+
+            </div>
+
+        </div>
+
+    </div>
+
+<script>
+
+async function loadDetections() {
+
+    const response = await fetch("/detections");
+
+    const data = await response.json();
+
+    const container =
+        document.getElementById("detections");
+
+    container.innerHTML = "";
+
+    document.getElementById(
+        "totalDetections"
+    ).innerText = data.length;
+
+    data.forEach(item => {
+
+        container.innerHTML += `
+
+            <div class="border rounded-lg p-4">
+
+                <div class="flex justify-between">
+
+                    <div>
+
+                        <p class="font-bold">
+                            ${item.device}
+                        </p>
+
+                        <p class="text-green-600">
+                            ${item.status}
+                        </p>
+
+                    </div>
+
+                    <div class="text-gray-500 text-sm">
+
+                        ${item.time}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+    });
+}
+
+loadDetections();
+
+setInterval(loadDetections, 3000);
+
+</script>
+
+</body>
+</html>

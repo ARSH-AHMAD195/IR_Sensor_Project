@@ -1,0 +1,15 @@
+{
+    "users": [
+        {
+            "name": "Arsh Ahmad",
+            "email": "arshdoom1955@gmail.com",
+            "password": "arsh123"
+        },
+        {
+            "name": "Arsh Ahmad",
+            "email": "arshdoom1955@gmail.com",
+            "password": "arsh123"
+        }
+    ],
+    "detections": []
+}
